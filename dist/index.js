@@ -32,15 +32,15 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 // const { abi } = JSON.parse(GitTokenContract)
 
-var GitTokenAnalytics = function () {
+var GitTokenAuction = function () {
   /**
    * GitToken Analytics Constructor Options
    * @param  {Object} options { mysql: { ...} }
    */
-  function GitTokenAnalytics(options) {
+  function GitTokenAuction(options) {
     var _this = this;
 
-    _classCallCheck(this, GitTokenAnalytics);
+    _classCallCheck(this, GitTokenAuction);
 
     this.listen();
     var web3Provider = options.web3Provider,
@@ -63,7 +63,7 @@ var GitTokenAnalytics = function () {
     }
   }
 
-  _createClass(GitTokenAnalytics, [{
+  _createClass(GitTokenAuction, [{
     key: 'configure',
     value: function configure(_ref) {
       var _this2 = this;
@@ -271,7 +271,7 @@ var GitTokenAnalytics = function () {
     }
   }]);
 
-  return GitTokenAnalytics;
+  return GitTokenAuction;
 }();
 
-exports.default = GitTokenAnalytics;
+exports.default = GitTokenAuction;

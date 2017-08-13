@@ -7,7 +7,7 @@ import saveNewAuctionEvent from './saveNewAuctionEvent'
 
 // const { abi } = JSON.parse(GitTokenContract)
 
-export default class GitTokenAnalytics {
+export default class GitTokenAuction {
   /**
    * GitToken Analytics Constructor Options
    * @param  {Object} options { mysql: { ...} }

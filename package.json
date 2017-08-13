@@ -2,7 +2,7 @@
   "name": "gittoken-auction",
   "version": "0.0.1",
   "description": "GitToken Auction Processor",
-  "main": "./dist/index.js",
+  "main": "./src/index.js",
   "scripts": {
     "test": "mocha",
     "build": "babel ./src/ --out-dir ./dist/"
