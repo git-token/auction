@@ -44,7 +44,8 @@ function saveAuctionEvent(_ref) {
       console.log('saveAuctionEvent::result', result);
       resolve(result[0]);
     }).catch(function (error) {
-      _this.handleError({ error: error, method: 'saveNewAuction' });
+
+      _this.handleError({ error: error, method: 'saveAuctionEvent' });
     });
   });
 }

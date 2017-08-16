@@ -64,7 +64,8 @@ export default function saveAuctionEvent({ event }) {
       console.log('saveAuctionEvent::result', result)
       resolve(result[0])
     }).catch((error) => {
-      this.handleError({ error, method: 'saveNewAuction' })
+
+      this.handleError({ error, method: 'saveAuctionEvent' })
     })
   })
 }

@@ -28,22 +28,22 @@ export default function saveAuctionBidEvent({ event }) {
           fundsCollected    BIGINT NOT NULL DEFAULT 0,
           fundLimit         BIGINT NOT NULL DEFAULT 0,
           date              BIGINT NOT NULL DEFAULT 0
-        ) ENGINE = INNODB;
+        );
       `,
     }).then(() => {
       return this.query({
         queryString: `
           INSERT INTO auction_bids (
-            txHash            CHARACTER(66) PRIMARY KEY,
-            auctionRound      BIGINT NOT NULL DEFAULT 0,
-            exRate            BIGINT NOT NULL DEFAULT 0,
-            wtdAvgExRate      BIGINT NOT NULL DEFAULT 0,
-            tokensTransferred BIGINT NOT NULL DEFAULT 0,
-            ethPaid           BIGINT NOT NULL DEFAULT 0,
-            ethRefunded       BIGINT NOT NULL DEFAULT 0,
-            fundsCollected    BIGINT NOT NULL DEFAULT 0,
-            fundLimit         BIGINT NOT NULL DEFAULT 0,
-            date              BIGINT NOT NULL DEFAULT 0
+            txHash,
+            auctionRound,
+            exRate,
+            wtdAvgExRate,
+            tokensTransferred,
+            ethPaid,
+            ethRefunded,
+            fundsCollected,
+            fundLimit,
+            date
           ) VALUES (
             "${transactionHash}",
             ${auctionRound},
