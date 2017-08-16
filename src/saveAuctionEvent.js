@@ -4,7 +4,7 @@ export default function saveAuctionEvent({ event }) {
   return new Promise((resolve, reject) => {
 
     const { transactionHash, args: { auctionDetails } } = event
-    console.log('auctionDetails', auctionDetails)
+    console.log('saveAuctionEvent::auctionDetails', auctionDetails)
     const auctionRound     = auctionDetails[0].toNumber();
     const startDate        = auctionDetails[1].toNumber();
     const endDate          = auctionDetails[2].toNumber();
@@ -61,6 +61,7 @@ export default function saveAuctionEvent({ event }) {
         `
       })
     }).then((result) => {
+      console.log('saveAuctionEvent::result', result)
       resolve(result[0])
     }).catch((error) => {
       this.handleError({ error, method: 'saveNewAuction' })

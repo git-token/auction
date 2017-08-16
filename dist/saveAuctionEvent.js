@@ -20,7 +20,7 @@ function saveAuctionEvent(_ref) {
     var transactionHash = event.transactionHash,
         auctionDetails = event.args.auctionDetails;
 
-    console.log('auctionDetails', auctionDetails);
+    console.log('saveAuctionEvent::auctionDetails', auctionDetails);
     var auctionRound = auctionDetails[0].toNumber();
     var startDate = auctionDetails[1].toNumber();
     var endDate = auctionDetails[2].toNumber();
@@ -41,6 +41,7 @@ function saveAuctionEvent(_ref) {
         queryString: '\n          SELECT * FROM auctions WHERE txHash = "' + transactionHash + '";\n        '
       });
     }).then(function (result) {
+      console.log('saveAuctionEvent::result', result);
       resolve(result[0]);
     }).catch(function (error) {
       _this.handleError({ error: error, method: 'saveNewAuction' });
