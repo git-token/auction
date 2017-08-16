@@ -9,10 +9,10 @@ export default function saveAuctionBidEvent({ event }) {
     const exRate            = bidDetails[1].toNumber();
     const wtdAvgExRate      = bidDetails[2].toNumber();
     const tokensTransferred = bidDetails[3].toNumber();
-    const ethPaid           = bidDetails[4].toNumber();
-    const ethRefunded       = bidDetails[5].toNumber();
-    const fundsCollected    = bidDetails[6].toNumber() / Math.pow(10, decimals);
-    const fundLimit         = bidDetails[7].toNumber() / Math.pow(10, decimals);
+    const ethPaid           = bidDetails[4].toNumber() / 1e18;
+    const ethRefunded       = bidDetails[5].toNumber() / 1e18;
+    const fundsCollected    = bidDetails[6].toNumber() / 1e18;
+    const fundLimit         = bidDetails[7].toNumber() / 1e18;
     const date              = bidDetails[8].toNumber();
 
     this.query({

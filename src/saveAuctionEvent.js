@@ -11,7 +11,7 @@ export default function saveAuctionEvent({ event }) {
     const lockDate         = auctionDetails[3].toNumber();
     const tokensOffered    = auctionDetails[4].toNumber();
     const initialPrice     = auctionDetails[5].toNumber();
-    const fundLimit        = auctionDetails[6].toNumber() / Math.pow(10, decimals);
+    const fundLimit        = auctionDetails[6].toNumber() / 1e18;
     const tokenLimitFactor = auctionDetails[7].toNumber();
 
     this.query({

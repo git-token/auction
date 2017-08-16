@@ -26,10 +26,10 @@ function saveAuctionBidEvent(_ref) {
     var exRate = bidDetails[1].toNumber();
     var wtdAvgExRate = bidDetails[2].toNumber();
     var tokensTransferred = bidDetails[3].toNumber();
-    var ethPaid = bidDetails[4].toNumber();
-    var ethRefunded = bidDetails[5].toNumber();
-    var fundsCollected = bidDetails[6].toNumber() / Math.pow(10, decimals);
-    var fundLimit = bidDetails[7].toNumber() / Math.pow(10, decimals);
+    var ethPaid = bidDetails[4].toNumber() / 1e18;
+    var ethRefunded = bidDetails[5].toNumber() / 1e18;
+    var fundsCollected = bidDetails[6].toNumber() / 1e18;
+    var fundLimit = bidDetails[7].toNumber() / 1e18;
     var date = bidDetails[8].toNumber();
 
     _this.query({
