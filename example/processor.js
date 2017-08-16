@@ -1,4 +1,4 @@
 const GitTokenAuction = require('../dist/index').default
-const config = require('./config')
+const config = require('../test/config')
 const { mysqlOpts, web3Provider, contractAddress } = config
-const processor = new GitTokenAuction({ })
+const processor = new GitTokenAuction({ /* ...config */ })

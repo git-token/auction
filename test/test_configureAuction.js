@@ -1,12 +1,12 @@
-const assert = require('assert')
+
+const Promise =require('bluebird')
 const fork = require('child_process').fork
+const config = require('./config')
+const auction = fork('./example/processor.js')
 
-// const auction = fork('./test_processor.js')
+auction.send(JSON.stringify({ event: 'configure', data: config }))
 
-describe('GitToken Auction Processor', function() {
-  describe('`configure` Event', function() {
-    it("Should configure the auction processor's connection to MySQL DB and Web3 Provider", function() {
-        // assert.equal(typeof auction, 'object');
-    })
-  })
+auction.on('message', (msg) => {
+  const data = JSON.stringify(JSON.parse(msg), null, 2);
+  console.log("Received Data:", data)
 })

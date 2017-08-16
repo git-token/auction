@@ -3,9 +3,10 @@ import Promise, { join, promisifyAll } from 'bluebird'
 import Web3 from 'web3'
 import mysql from 'mysql'
 
-import saveNewAuctionEvent from './saveNewAuctionEvent'
+import saveAuctionEvent from './saveAuctionEvent'
+import saveAuctionBidEvent from './saveAuctionBidEvent'
 
-// const { abi } = JSON.parse(GitTokenContract)
+const { abi } = JSON.parse(GitTokenContract)
 
 export default class GitTokenAuction {
   /**
@@ -14,16 +15,18 @@ export default class GitTokenAuction {
    */
   constructor(options) {
     this.listen()
-    const { web3Provider, mysqlOpts, contractAddress, abi } = options
+    const { web3Provider, mysqlOpts, contractAddress } = options
     this.contractDetails = {}
 
-    this.saveNewAuctionEvent = saveNewAuctionEvent.bind(this)
+    this.saveAuctionEvent    = saveAuctionEvent.bind(this)
+    this.saveAuctionBidEvent = saveAuctionBidEvent.bind(this)
 
     if (web3Provider && mysqlOpts && contractAddress && abi) {
       this.configure({ web3Provider, mysqlOpts, contractAddress, abi }).then((configured) => {
         console.log('GitToken Analytics Processor Configured')
         console.log(JSON.stringify(configured, null, 2))
-        this._watchInitializeAuctionEvents()
+        this._watchAuctionEvents()
+        this._watchAuctionBidEvents()
       })
     } else {
       console.log(`GitToken Auction Processor listening for 'configure' event.`)
@@ -100,12 +103,27 @@ export default class GitTokenAuction {
     })
   }
 
-  _watchInitializeAuctionEvents() {
-    const events = this.contract.NewAuction({}, { fromBlock: 0, toBlock: 'latest' })
+  _watchAuctionBidEvents() {
+    const events = this.contract.AuctionBid({}, { fromBlock: 0, toBlock: 'latest' })
     events.watch((error, result) => {
-      if (error) { this.handleError({ error, method: '_watchInitializeAuctionEvents' }) }
-      console.log('_watchInitializeAuctionEvents::result', result)
-      this.saveNewAuctionEvent({ event: result }).then((auctionDetails) => {
+      if (error) { this.handleError({ error, method: '_watchAuctionBidEvents' }) }
+      console.log('_watchAuctionBidEvents::result', result)
+      this.saveAuctionBidEvent({ event: result }).then((auctionDetails) => {
+        process.send(JSON.stringify({
+          event: 'broadcast_auction_bid_data',
+          message: `New Auction Bid Event.`,
+          data: auctionDetails
+        }))
+      })
+    })
+  }
+
+  _watchAuctionEvents() {
+    const events = this.contract.Auction({}, { fromBlock: 0, toBlock: 'latest' })
+    events.watch((error, result) => {
+      if (error) { this.handleError({ error, method: '_watchAuctionEvents' }) }
+      console.log('_watchAuctionEvents::result', result)
+      this.saveAuctionEvent({ event: result }).then((auctionDetails) => {
         process.send(JSON.stringify({
           event: 'broadcast_auction_data',
           message: `New Auction Event.`,
@@ -150,7 +168,7 @@ export default class GitTokenAuction {
       const { event, data } = JSON.parse(msg)
       switch(event) {
         case 'configure':
-          const { web3Provider, mysqlOpts, contractAddress, abi } = data
+          const { web3Provider, mysqlOpts, contractAddress } = data
           // console.log('listen::contractAddress, abi', contractAddress, abi)
           this.configure({
             web3Provider,
@@ -159,7 +177,8 @@ export default class GitTokenAuction {
             abi
           }).then((configured) => {
             process.send(JSON.stringify({ event, data: configured, message: 'GitToken Auction Processor Configured' }))
-            this._watchInitializeAuctionEvents()
+            this._watchAuctionEvents()
+            this._watchAuctionBidEvents()
           })
           break;
         case 'contract_details':
