@@ -17,6 +17,7 @@ function saveAuctionEvent(_ref) {
   var event = _ref.event;
 
   return new _bluebird2.default(function (resolve, reject) {
+    var decimals = _this.contractDetails.decimals;
     var transactionHash = event.transactionHash,
         auctionDetails = event.args.auctionDetails;
 
@@ -27,11 +28,11 @@ function saveAuctionEvent(_ref) {
     var lockDate = auctionDetails[3].toNumber();
     var tokensOffered = auctionDetails[4].toNumber();
     var initialPrice = auctionDetails[5].toNumber();
-    var fundLimit = auctionDetails[6].toNumber();
+    var fundLimit = auctionDetails[6].toNumber() / Math.pow(10, decimals);
     var tokenLimitFactor = auctionDetails[7].toNumber();
 
     _this.query({
-      queryString: '\n        CREATE TABLE IF NOT EXISTS auctions (\n          txHash           CHARACTER(66),\n          auctionRound     BIGINT NOT NULL DEFAULT 0 PRIMARY KEY,\n          startDate        BIGINT NOT NULL DEFAULT 0,\n          endDate          BIGINT NOT NULL DEFAULT 0,\n          lockDate         BIGINT NOT NULL DEFAULT 0,\n          tokensOffered    BIGINT NOT NULL DEFAULT 0,\n          initialPrice     BIGINT NOT NULL DEFAULT 0,\n          fundLimit        BIGINT NOT NULL DEFAULT 0,\n          tokenLimitFactor BIGINT NOT NULL DEFAULT 0\n        ) ENGINE = INNODB;\n      '
+      queryString: '\n        CREATE TABLE IF NOT EXISTS auctions (\n          txHash           CHARACTER(66),\n          auctionRound     BIGINT NOT NULL DEFAULT 0 PRIMARY KEY,\n          startDate        BIGINT NOT NULL DEFAULT 0,\n          endDate          BIGINT NOT NULL DEFAULT 0,\n          lockDate         BIGINT NOT NULL DEFAULT 0,\n          tokensOffered    BIGINT NOT NULL DEFAULT 0,\n          initialPrice     BIGINT NOT NULL DEFAULT 0,\n          fundLimit        BIGINT NOT NULL DEFAULT 0,\n          tokenLimitFactor BIGINT NOT NULL DEFAULT 0\n        );\n      '
     }).then(function () {
       return _this.query({
         queryString: '\n          INSERT INTO auctions (\n            txHash,\n            auctionRound,\n            startDate,\n            endDate,\n            lockDate,\n            tokensOffered,\n            initialPrice,\n            fundLimit,\n            tokenLimitFactor\n          ) VALUES (\n            "' + transactionHash + '",\n            ' + auctionRound + ',\n            ' + startDate + ',\n            ' + endDate + ',\n            ' + lockDate + ',\n            ' + tokensOffered + ',\n            ' + initialPrice + ',\n            ' + fundLimit + ',\n            ' + tokenLimitFactor + '\n          );\n        '

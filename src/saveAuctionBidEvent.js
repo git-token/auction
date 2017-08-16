@@ -2,18 +2,18 @@ import Promise from 'bluebird'
 
 export default function saveAuctionBidEvent({ event }) {
   return new Promise((resolve, reject) => {
-
+    const { decimals } = this.contractDetails
     const { transactionHash, args: { bidDetails } } = event
 
-    const auctionRound      = bidDetails[0];
-    const exRate            = bidDetails[1];
-    const wtdAvgExRate      = bidDetails[2];
-    const tokensTransferred = bidDetails[3];
-    const ethPaid           = bidDetails[4];
-    const ethRefunded       = bidDetails[5];
-    const fundsCollected    = bidDetails[6];
-    const fundLimit         = bidDetails[7];
-    const date              = bidDetails[8];
+    const auctionRound      = bidDetails[0].toNumber();
+    const exRate            = bidDetails[1].toNumber();
+    const wtdAvgExRate      = bidDetails[2].toNumber();
+    const tokensTransferred = bidDetails[3].toNumber();
+    const ethPaid           = bidDetails[4].toNumber();
+    const ethRefunded       = bidDetails[5].toNumber();
+    const fundsCollected    = bidDetails[6].toNumber() / Math.pow(10, decimals);
+    const fundLimit         = bidDetails[7].toNumber() / Math.pow(10, decimals);
+    const date              = bidDetails[8].toNumber();
 
     this.query({
       queryString: `

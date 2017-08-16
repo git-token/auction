@@ -2,7 +2,7 @@ import Promise from 'bluebird'
 
 export default function saveAuctionEvent({ event }) {
   return new Promise((resolve, reject) => {
-
+    const { decimals } = this.contractDetails
     const { transactionHash, args: { auctionDetails } } = event
     console.log('saveAuctionEvent::auctionDetails', auctionDetails)
     const auctionRound     = auctionDetails[0].toNumber();
@@ -11,7 +11,7 @@ export default function saveAuctionEvent({ event }) {
     const lockDate         = auctionDetails[3].toNumber();
     const tokensOffered    = auctionDetails[4].toNumber();
     const initialPrice     = auctionDetails[5].toNumber();
-    const fundLimit        = auctionDetails[6].toNumber();
+    const fundLimit        = auctionDetails[6].toNumber() / Math.pow(10, decimals);
     const tokenLimitFactor = auctionDetails[7].toNumber();
 
     this.query({
@@ -26,7 +26,7 @@ export default function saveAuctionEvent({ event }) {
           initialPrice     BIGINT NOT NULL DEFAULT 0,
           fundLimit        BIGINT NOT NULL DEFAULT 0,
           tokenLimitFactor BIGINT NOT NULL DEFAULT 0
-        ) ENGINE = INNODB;
+        );
       `,
     }).then(() => {
       return this.query({
