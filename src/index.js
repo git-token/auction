@@ -186,6 +186,16 @@ export default class GitTokenAuction {
             process.send(JSON.stringify({ event, data: result, message: 'Contract details retrieved.' }))
           })
           break;
+        case 'get_auctions':
+          this.query({ queryString: `SELECT * FROM auctions;` }).then((result) => {
+            process.send(JSON.stringify({ event, data: result, message: "Auction Data Retrieved" }))
+          })
+          break;
+        case 'get_auction_bids':
+          this.query({ queryString: `SELECT * FROM auction_bids;` }).then((result) => {
+            process.send(JSON.stringify({ event, data: result, message: "Auction Data Retrieved" }))
+          })
+          break;
         default:
           process.send(JSON.stringify({
             message: 'Unhandled Auction Event',

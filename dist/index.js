@@ -273,6 +273,16 @@ var GitTokenAuction = function () {
               process.send(JSON.stringify({ event: event, data: result, message: 'Contract details retrieved.' }));
             });
             break;
+          case 'get_auctions':
+            _this10.query({ queryString: 'SELECT * FROM auctions;' }).then(function (result) {
+              process.send(JSON.stringify({ event: event, data: result, message: "Auction Data Retrieved" }));
+            });
+            break;
+          case 'get_auction_bids':
+            _this10.query({ queryString: 'SELECT * FROM auction_bids;' }).then(function (result) {
+              process.send(JSON.stringify({ event: event, data: result, message: "Auction Data Retrieved" }));
+            });
+            break;
           default:
             process.send(JSON.stringify({
               message: 'Unhandled Auction Event',

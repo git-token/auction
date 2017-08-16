@@ -17,7 +17,7 @@ export default function saveAuctionBidEvent({ event }) {
 
     this.query({
       queryString: `
-        CREATE TABLE IF NOT EXISTS auctionBids (
+        CREATE TABLE IF NOT EXISTS auction_bids (
           txHash            CHARACTER(66) PRIMARY KEY,
           auctionRound      BIGINT NOT NULL DEFAULT 0,
           exRate            BIGINT NOT NULL DEFAULT 0,
@@ -33,7 +33,7 @@ export default function saveAuctionBidEvent({ event }) {
     }).then(() => {
       return this.query({
         queryString: `
-          INSERT INTO auctionBids (
+          INSERT INTO auction_bids (
             txHash            CHARACTER(66) PRIMARY KEY,
             auctionRound      BIGINT NOT NULL DEFAULT 0,
             exRate            BIGINT NOT NULL DEFAULT 0,
@@ -61,7 +61,7 @@ export default function saveAuctionBidEvent({ event }) {
     }).then(() => {
       return this.query({
         queryString: `
-          SELECT * FROM auctionBids WHERE txHash = "${transactionHash}";
+          SELECT * FROM auction_bids WHERE txHash = "${transactionHash}";
         `
       })
     }).then((result) => {
