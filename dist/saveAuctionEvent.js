@@ -20,15 +20,15 @@ function saveAuctionEvent(_ref) {
     var transactionHash = event.transactionHash,
         auctionDetails = event.args.auctionDetails;
 
-
-    var auctionRound = auctionDetails[0];
-    var startDate = auctionDetails[1];
-    var endDate = auctionDetails[2];
-    var lockDate = auctionDetails[3];
-    var tokensOffered = auctionDetails[4];
-    var initialPrice = auctionDetails[5];
-    var fundLimit = auctionDetails[6];
-    var tokenLimitFactor = auctionDetails[7];
+    console.log('auctionDetails', auctionDetails);
+    var auctionRound = auctionDetails[0].toNumber();
+    var startDate = auctionDetails[1].toNumber();
+    var endDate = auctionDetails[2].toNumber();
+    var lockDate = auctionDetails[3].toNumber();
+    var tokensOffered = auctionDetails[4].toNumber();
+    var initialPrice = auctionDetails[5].toNumber();
+    var fundLimit = auctionDetails[6].toNumber();
+    var tokenLimitFactor = auctionDetails[7].toNumber();
 
     _this.query({
       queryString: '\n        CREATE TABLE IF NOT EXISTS auctions (\n          txHash           CHARACTER(66),\n          auctionRound     BIGINT NOT NULL DEFAULT 0 PRIMARY KEY,\n          startDate        BIGINT NOT NULL DEFAULT 0,\n          endDate          BIGINT NOT NULL DEFAULT 0,\n          lockDate         BIGINT NOT NULL DEFAULT 0,\n          tokensOffered    BIGINT NOT NULL DEFAULT 0,\n          initialPrice     BIGINT NOT NULL DEFAULT 0,\n          fundLimit        BIGINT NOT NULL DEFAULT 0,\n          tokenLimitFactor BIGINT NOT NULL DEFAULT 0\n        ) ENGINE = INNODB;\n      '

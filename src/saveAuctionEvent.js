@@ -4,15 +4,15 @@ export default function saveAuctionEvent({ event }) {
   return new Promise((resolve, reject) => {
 
     const { transactionHash, args: { auctionDetails } } = event
-
-    const auctionRound     = auctionDetails[0];
-    const startDate        = auctionDetails[1];
-    const endDate          = auctionDetails[2];
-    const lockDate         = auctionDetails[3];
-    const tokensOffered    = auctionDetails[4];
-    const initialPrice     = auctionDetails[5];
-    const fundLimit        = auctionDetails[6];
-    const tokenLimitFactor = auctionDetails[7];
+    console.log('auctionDetails', auctionDetails)
+    const auctionRound     = auctionDetails[0].toNumber();
+    const startDate        = auctionDetails[1].toNumber();
+    const endDate          = auctionDetails[2].toNumber();
+    const lockDate         = auctionDetails[3].toNumber();
+    const tokensOffered    = auctionDetails[4].toNumber();
+    const initialPrice     = auctionDetails[5].toNumber();
+    const fundLimit        = auctionDetails[6].toNumber();
+    const tokenLimitFactor = auctionDetails[7].toNumber();
 
     this.query({
       queryString: `
