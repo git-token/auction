@@ -26,8 +26,8 @@ function saveAuctionEvent(_ref) {
     var startDate = auctionDetails[1].toNumber();
     var endDate = auctionDetails[2].toNumber();
     var lockDate = auctionDetails[3].toNumber();
-    var tokensOffered = auctionDetails[4].toNumber();
-    var initialPrice = auctionDetails[5].toNumber();
+    var tokensOffered = auctionDetails[4].toNumber() / Math.pow(10, decimals);
+    var initialPrice = auctionDetails[5].toNumber() / Math.pow(10, decimals);
     var fundLimit = auctionDetails[6].toNumber() / 1e18;
     var tokenLimitFactor = auctionDetails[7].toNumber();
 
