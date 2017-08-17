@@ -23,10 +23,10 @@ export default function saveAuctionBidEvent({ event }) {
           exRate            BIGINT NOT NULL DEFAULT 0,
           wtdAvgExRate      BIGINT NOT NULL DEFAULT 0,
           tokensTransferred BIGINT NOT NULL DEFAULT 0,
-          ethPaid           BIGINT NOT NULL DEFAULT 0,
-          ethRefunded       BIGINT NOT NULL DEFAULT 0,
-          fundsCollected    BIGINT NOT NULL DEFAULT 0,
-          fundLimit         BIGINT NOT NULL DEFAULT 0,
+          ethPaid           REAL,
+          ethRefunded       REAL,
+          fundsCollected    REAL,
+          fundLimit         REAL,
           date              BIGINT NOT NULL DEFAULT 0
         );
       `,
