@@ -108,11 +108,18 @@ export default class GitTokenAuction {
     events.watch((error, result) => {
       if (error) { this.handleError({ error, method: '_watchAuctionBidEvents' }) }
       console.log('_watchAuctionBidEvents::result', result)
-      this.saveAuctionBidEvent({ event: result }).then((auctionDetails) => {
+      this.saveAuctionBidEvent({ event: result }).then((bidDetails) => {
         process.send(JSON.stringify({
           event: 'broadcast_auction_bid_data',
           message: `New Auction Bid Event.`,
-          data: auctionDetails
+          data: bidDetails
+        }))
+        return this.updateAuctionHistory({ bidDetails })
+      }).then((auctionHistory) => {
+        process.send(JSON.stringify({
+          event: 'broadcast_auction_history',
+          message: `Updated auction history.`,
+          data: auctionHistory
         }))
       })
     })

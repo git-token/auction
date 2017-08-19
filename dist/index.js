@@ -183,11 +183,18 @@ var GitTokenAuction = function () {
           _this7.handleError({ error: error, method: '_watchAuctionBidEvents' });
         }
         console.log('_watchAuctionBidEvents::result', result);
-        _this7.saveAuctionBidEvent({ event: result }).then(function (auctionDetails) {
+        _this7.saveAuctionBidEvent({ event: result }).then(function (bidDetails) {
           process.send(JSON.stringify({
             event: 'broadcast_auction_bid_data',
             message: 'New Auction Bid Event.',
-            data: auctionDetails
+            data: bidDetails
+          }));
+          return _this7.updateAuctionHistory({ bidDetails: bidDetails });
+        }).then(function (auctionHistory) {
+          process.send(JSON.stringify({
+            event: 'broadcast_auction_history',
+            message: 'Updated auction history.',
+            data: auctionHistory
           }));
         });
       });
