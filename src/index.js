@@ -203,6 +203,11 @@ export default class GitTokenAuction {
             process.send(JSON.stringify({ event, data: result, message: "Auction Data Retrieved" }))
           })
           break;
+        case 'get_auction_history':
+          this.query({ queryString: `SELECT * FROM auction_history;` }).then((result) => {
+            process.send(JSON.stringify({ event, data: result, message: "Auction Data Retrieved" }))
+          })
+          break;
         default:
           process.send(JSON.stringify({
             message: 'Unhandled Auction Event',
