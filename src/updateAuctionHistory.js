@@ -41,7 +41,7 @@ export default function updateAuctionHistory({ auctionRound }) {
             (SELECT initialPrice from auctions WHERE auctionRound = ${auctionRound}),
             (SELECT wtdAvgExRate from auction_bids where auctionRound = ${auctionRound} ORDER BY date DESC LIMIT 1),
             (SELECT tokensOffered from auctions WHERE auctionRound = ${auctionRound}),
-            (SELECT sum(tokensTransferred) from auctions WHERE auctionRound = ${auctionRound}),
+            (SELECT sum(tokensTransferred) from auction_bids WHERE auctionRound = ${auctionRound}),
             (SELECT fundsCollected from auction_bids where auctionRound = ${auctionRound} ORDER BY date DESC LIMIT 1),
             (SELECT fundLimit from auctions WHERE auctionRound = ${auctionRound})
           ) ON DUPLICATE KEY UPDATE
