@@ -5,6 +5,7 @@ import mysql from 'mysql'
 
 import saveAuctionEvent from './saveAuctionEvent'
 import saveAuctionBidEvent from './saveAuctionBidEvent'
+import updateAuctionHistory from './updateAuctionHistory'
 
 const { abi } = JSON.parse(GitTokenContract)
 
@@ -20,6 +21,7 @@ export default class GitTokenAuction {
 
     this.saveAuctionEvent    = saveAuctionEvent.bind(this)
     this.saveAuctionBidEvent = saveAuctionBidEvent.bind(this)
+    this.updateAuctionHistory = updateAuctionHistory.bind(this)
 
     if (web3Provider && mysqlOpts && contractAddress && abi) {
       this.configure({ web3Provider, mysqlOpts, contractAddress, abi }).then((configured) => {
@@ -114,7 +116,7 @@ export default class GitTokenAuction {
           message: `New Auction Bid Event.`,
           data: bidDetails
         }))
-        return this.updateAuctionHistory({ bidDetails })
+        return this.updateAuctionHistory({ auctionRound: bidDetails['auctionRound'] })
       }).then((auctionHistory) => {
         process.send(JSON.stringify({
           event: 'broadcast_auction_history',
@@ -135,6 +137,13 @@ export default class GitTokenAuction {
           event: 'broadcast_auction_data',
           message: `New Auction Event.`,
           data: auctionDetails
+        }))
+        return this.updateAuctionHistory({ auctionRound: auctionDetails['auctionRound'] })
+      }).then((auctionHistory) => {
+        process.send(JSON.stringify({
+          event: 'broadcast_auction_history',
+          message: `Updated auction history.`,
+          data: auctionHistory
         }))
       })
     })

@@ -28,6 +28,10 @@ var _saveAuctionBidEvent = require('./saveAuctionBidEvent');
 
 var _saveAuctionBidEvent2 = _interopRequireDefault(_saveAuctionBidEvent);
 
+var _updateAuctionHistory = require('./updateAuctionHistory');
+
+var _updateAuctionHistory2 = _interopRequireDefault(_updateAuctionHistory);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -56,6 +60,7 @@ var GitTokenAuction = function () {
 
     this.saveAuctionEvent = _saveAuctionEvent2.default.bind(this);
     this.saveAuctionBidEvent = _saveAuctionBidEvent2.default.bind(this);
+    this.updateAuctionHistory = _updateAuctionHistory2.default.bind(this);
 
     if (web3Provider && mysqlOpts && contractAddress && abi) {
       this.configure({ web3Provider: web3Provider, mysqlOpts: mysqlOpts, contractAddress: contractAddress, abi: abi }).then(function (configured) {
@@ -189,7 +194,7 @@ var GitTokenAuction = function () {
             message: 'New Auction Bid Event.',
             data: bidDetails
           }));
-          return _this7.updateAuctionHistory({ bidDetails: bidDetails });
+          return _this7.updateAuctionHistory({ auctionRound: bidDetails['auctionRound'] });
         }).then(function (auctionHistory) {
           process.send(JSON.stringify({
             event: 'broadcast_auction_history',
@@ -215,6 +220,13 @@ var GitTokenAuction = function () {
             event: 'broadcast_auction_data',
             message: 'New Auction Event.',
             data: auctionDetails
+          }));
+          return _this8.updateAuctionHistory({ auctionRound: auctionDetails['auctionRound'] });
+        }).then(function (auctionHistory) {
+          process.send(JSON.stringify({
+            event: 'broadcast_auction_history',
+            message: 'Updated auction history.',
+            data: auctionHistory
           }));
         });
       });
