@@ -1,6 +1,6 @@
 {
   "name": "gittoken-auction",
-  "version": "0.0.22",
+  "version": "0.0.23",
   "description": "GitToken Auction Processor",
   "main": "./src/index.js",
   "scripts": {
@@ -17,7 +17,7 @@
   "license": "MIT",
   "dependencies": {
     "bluebird": "^3.5.0",
-    "gittoken-contracts": "0.0.35",
+    "gittoken-contracts": "0.0.36",
     "mysql": "^2.14.0",
     "web3": "^0.19.0"
   },
