@@ -14,11 +14,10 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 function updateAuctionHistory(_ref) {
   var _this = this;
 
-  var bidDetails = _ref.bidDetails;
+  var auctionRound = _ref.auctionRound;
 
   return new _bluebird2.default(function (resolve, reject) {
     var decimals = _this.contractDetails.decimals;
-    var auctionRound = bidDetails.auctionRound;
 
 
     _this.query({

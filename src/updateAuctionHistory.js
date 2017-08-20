@@ -1,9 +1,8 @@
 import Promise from 'bluebird'
 
-export default function updateAuctionHistory({ bidDetails }) {
+export default function updateAuctionHistory({ auctionRound }) {
   return new Promise((resolve, reject) => {
     const { decimals } = this.contractDetails
-    const { auctionRound } = bidDetails
 
     this.query({
       queryString: `
